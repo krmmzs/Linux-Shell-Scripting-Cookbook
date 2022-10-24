@@ -1,3 +1,12 @@
+# Tangled Web? Not At All!
+
+## Overview
+
+## Image crawler and downloader
+
+图片爬取器（image crawler）可以下载Web页面上所有的图片。不用翻遍页面手动保存图片，我们可以用脚本识别图片并自动下载
+
+```bash
 #!/bin/bash
 #Filename: img_downloader.sh
 
@@ -30,3 +39,4 @@ curl -s "$url" | grep -E -o "<img src=[^>]*>" |
         echo Downloading "$filename"
         curl -s -O "$filename" --silent
     done < /tmp/$$.list
+```
