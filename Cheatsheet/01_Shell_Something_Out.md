@@ -281,7 +281,7 @@ $>pwd
 当命令在子shell中执行时，不会对当前shell造成任何影响；所有的改变仅限于该子shell内。
 例如，当用cd命令改变子shell的当前目录时，这种变化不会反映到主shell环境中。
 
-#### Running a command until it succeeds
+## Running a command until it succeeds
 
 ```bash
 repeat() {
@@ -297,3 +297,61 @@ repeat() {
 在大多数现代系统中，true是作为/bin中的一个二进制文件来实现的。这就意味着每执行一
 次之前提到的while循环，shell就不得不生成一个进程。为了避免这种情况，可以使用shell的内
 建命令:，该命令的退出状态总是为0：
+
+## Comparisons and tests
+
+A tips
+
+- [ condition ] && action;    # 如果condition为真，则执行action
+- [ condition ] || action;    # 如果condition为假，则执行action
+
+```bash
+[ $var -eq 0]
+```
+
+- gt：大于
+- lt：小于
+- ge：大于等于
+- le：小于等于
+
+-a是逻辑与操作符，-o是逻辑或操作符。可以按照下面的方法结合多个条件进行测试：
+
+- [ $var1 -ne 0 -a $var2 -gt 2 ]    #使用逻辑与-a
+- [ $var1 -ne 0 -o $var2 -gt 2 ]    #逻辑或-o
+
+文件系统相关测试
+
+- [ -f $file_var ]：如果给定的变量包含正常的文件路径或文件名，则返回真
+- [ -x $var ]：如果给定的变量包含的文件可执行，则返回真
+- [ -d $var ]：如果给定的变量包含的是目录，则返回真
+- [ -e $var ]：如果给定的变量包含的文件存在，则返回真
+- [ -c $var ]：如果给定的变量包含的是一个字符设备文件的路径，则返回真
+- [ -b $var ]：如果给定的变量包含的是一个块设备文件的路径，则返回真
+- [ -w $var ]：如果给定的变量包含的文件可写，则返回真
+- [ -r $var ]：如果给定的变量包含的文件可读，则返回真
+- [ -L $var ]：如果给定的变量包含的是一个符号链接，则返回真
+
+### String comparisons:
+
+进行字符串比较时，最好用双中括号，因为有时候采用单个中括号会产生错误。
+
+注意，双中括号是Bash的一个扩展特性。如果出于性能考虑，使用ash或dash
+来运行脚本，那么将无法使用该特性
+
+## Customizing bash with configuration files
+
+配置文件分为3类：登录时执行的、
+启动交互式shell时执行的以及调用shell处理脚本文件时执行的
+
+当用户登录shell时，会执行下列文件
+```bash
+
+`/etc/profile, $HOME/.profile, $HOME/.bash_login, $HOME/.bash_profile /``
+
+注意，如果你是通过图形化登录管理器登入的话，是不会执行/etc/profile
+
+$HOME/.profile和$HOME/.bash_profile这3个文件的。这是因为图形化窗口管理器
+
+并不会启动shell。当你打开终端窗口时才会创建shell，但这个shell也不是登录shell
+
+如果.bash_profile或.bash_login文件存在，则不会去读取.profile文件。
